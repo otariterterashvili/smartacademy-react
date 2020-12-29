@@ -1,18 +1,26 @@
-const x = [1, 2, 3, 4, 5]
-
-// x.forEach(function (i) {
-//   console.log(i)
-// })
-//
-const test = {
-  price: "12",
-  test: 12,
+class Person {
+  constructor(age, name) {
+    this.age = age
+    this.name = name
+  }
+  getName() {
+    return this.name
+  }
 }
 
-console.log(x)
+// create new person object
+const person = new Person(21, "oto")
 
-x.forEach((i) => console.log(i))
+function Person(name, age) {
+  this.name = name
+  this.age = age
+  this.getAge = (plusAge = 20) => {
+    return this.age + plusAge
+  }
+}
 
-t = x.map((i) => (i += 2))
+person = new Person("oto", 12)
 
-console.log(t)
+personObject = Object.create(person)
+
+console.log(personObject.__proto__.getAge(100))
