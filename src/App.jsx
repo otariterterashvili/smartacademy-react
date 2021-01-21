@@ -1,41 +1,62 @@
 import { Component } from "react"
-import Drawer from "./components/Drawer"
+import Input from "./components/Input"
+import { StyledButton } from "./components/StyledComponents"
 
 class App extends Component {
   constructor() {
     super()
-    this.onClick = this.onClick.bind(this)
+    // this.handleEvent = this.handleEvent.bind(this)
+    this.handleEvent = this.handleEvent.bind(this)
     this.state = {
-      isOpen: true,
+      isLoading: false,
+      data: [],
     }
-    console.log("constructor lifecycle")
   }
-  componentWillMount() {
-    console.log("componentWillMount lifecycle")
-  }
-  componentDidMount() {
-    console.log("componentDidMount lifecycle")
-  }
-  // componentWillUpdate(nextProps) {
-  //   console.log("componentWillUpdate", nextProps)
-  // }
-  // componentDidUpdate(nextProps, nextState) {
-  //   console.log("componentDidUpdate", nextState)
-  // }
-  onClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    })
+
+  handleEvent(e) {
+    this.setState({ isLoading: true })
+    setTimeout(() => {
+      this.setState((prevState) => {
+        return {
+          isLoading: false,
+          data: [{ name: "Otar Terterashvili" }],
+        }
+      })
+    }, 3000)
   }
 
   render() {
-    console.log("render lifecycle")
-    console.log(this.state.isOpen)
+    const { isLoading, data } = this.state
+    if (isLoading) {
+      return (
+        <div>
+          <h3>Loading ...</h3>
+        </div>
+      )
+    }
     return (
       <>
         <h1>Hello todo app</h1>
-        <button onClick={this.onClick}>Show drawer</button>
-        {this.state.isOpen && <Drawer open={this.state.isOpen} />}
+        <div style={{ marginBottom: "30px" }}>
+          <StyledButton pl="30px" pr="30px">
+            THis is test styled button<span>old text</span>
+          </StyledButton>
+        </div>
+        <Input />
+        <StyledButton
+          className="btn"
+          pl="50px"
+          pr="50px"
+          onClick={this.handleEvent}
+          onDoubleClick={this.handleEvent}
+        >
+          Get My personal Data
+        </StyledButton>
+        {data.map((item) => (
+          <div>
+            <h3>{item.name}</h3>
+          </div>
+        ))}
       </>
     )
   }
