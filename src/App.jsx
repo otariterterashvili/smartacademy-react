@@ -1,63 +1,61 @@
 import { Component } from "react"
-import Input from "./components/Input"
-import { StyledButton } from "./components/StyledComponents"
+import Child from "./components/Child"
+import {
+  ChildWrapper,
+  StyledRound,
+  Container,
+  Parent,
+} from "./components/StyledComponents"
+import ThirdChild from "./components/ThirdChild"
 
 class App extends Component {
   constructor() {
     super()
     // this.handleEvent = this.handleEvent.bind(this)
-    this.handleEvent = this.handleEvent.bind(this)
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
-      isLoading: false,
-      data: [],
+      isAnimate: false,
     }
   }
 
-  handleEvent(e) {
-    this.setState({ isLoading: true })
+  handleClick(e) {
+    this.setState({ isAnimate: true })
     setTimeout(() => {
-      this.setState((prevState) => {
-        return {
-          isLoading: false,
-          data: [{ name: "Otar Terterashvili" }],
-        }
-      })
-    }, 3000)
+      this.setState({ isAnimate: false })
+    }, 1000)
+    // setTimeout(() => {
+    //   this.setState((prevState) => {
+    //     return {
+    //       isLoading: false,
+    //       data: [{ name: "Otar Terterashvili" }],
+    //     }
+    //   })
+    // }, 3000)
   }
 
   render() {
-    const { isLoading, data } = this.state
-    if (isLoading) {
-      return (
-        <div>
-          <h3>Loading ...</h3>
-        </div>
-      )
-    }
+    const isAnimate = this.state.isAnimate ? "animate" : ""
     return (
-      <>
-        <h1>Hello todo app</h1>
-        <div style={{ marginBottom: "30px" }}>
-          <StyledButton pl="30px" pr="30px">
-            THis is test styled button<span>old text</span>
-          </StyledButton>
-        </div>
-        <Input />
-        <StyledButton
-          className="btn"
-          pl="50px"
-          pr="50px"
-          onClick={this.handleEvent}
-          onDoubleClick={this.handleEvent}
-        >
-          Get My personal Data
-        </StyledButton>
-        {data.map((item) => (
-          <div>
-            <h3>{item.name}</h3>
-          </div>
-        ))}
-      </>
+      <main>
+        <Container>
+          <Parent className="parent">
+            <StyledRound className={isAnimate} onClick={this.handleClick} />
+            <ChildWrapper>
+              <Child
+                animate={this.state.isAnimate}
+                setState={this.handleClick}
+                components={[ThirdChild, ThirdChild]}
+              />
+              <Child
+                animate={this.state.isAnimate}
+                setState={this.handleClick}
+              />
+              <Child animate={this.state.isAnimate} />
+              <Child />
+            </ChildWrapper>
+          </Parent>
+        </Container>
+      </main>
     )
   }
 }
