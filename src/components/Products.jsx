@@ -1,45 +1,52 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { SyncLoader } from "react-spinners"
 import axios from "axios"
 
 const API_URL = "https://fakestoreapi.com"
 
-class Products extends Component {
-  constructor() {
-    super()
-    this.state = {
-      isLoading: true,
-      products: [],
-    }
-  }
-  async componentDidMount() {
-    const response = await axios.get(`${API_URL}/products`)
+// const response = await axios.get(`${API_URL}/products`)
+// isLoading: true,
+// products: [],
 
-    this.setState({
-      isLoading: false,
-      products: response.data,
-    })
+const Products = () => {
+  const [isLoading, setLoading] = useState(true)
+  const [products, setProducts] = useState([])
+
+  const handleChange = () => {
+    setLoading(!isLoading)
   }
-  render() {
-    const { isLoading, products } = this.state
-    return (
-      <Wrapper>
-        <Container>
-          {isLoading && <SyncLoader size={30} color="#404c5d" />}
-          <ProductContainer>
-            {!isLoading &&
-              products.map((product) => (
-                <Card>
-                  <img src={product.image} alt={product.title} />
-                  <h1>{product.title}</h1>
-                </Card>
-              ))}
-          </ProductContainer>
-        </Container>
-      </Wrapper>
-    )
-  }
+
+  useEffect(async () => {
+    const response = await axios.get(`${API_URL}/products`)
+    setProducts(response.data)
+
+    setLoading(false)
+    // componentWillUnmount
+    return () => {
+      console.log("componentWillUnmount")
+    }
+  }, [])
+
+  console.log("render")
+
+  return (
+    <Wrapper>
+      <button onClick={handleChange}>testing</button>
+      <Container>
+        {isLoading && <SyncLoader size={30} color="#404c5d" />}
+        <ProductContainer>
+          {!isLoading &&
+            products.map((product) => (
+              <Card>
+                <img src={product.image} alt={product.title} />
+                <h1>{product.title}</h1>
+              </Card>
+            ))}
+        </ProductContainer>
+      </Container>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.div`
