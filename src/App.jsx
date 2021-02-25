@@ -1,13 +1,28 @@
-import React from "react"
-import { gql, useLazyQuery, useQuery } from "@apollo/client"
+import React, { Suspense, lazy } from "react"
+import { Switch, Route } from "react-router-dom"
+import Header from "./components/Header"
+import Loader from "./components/Loader"
+import Home from "./screens/Home"
+import Login from "./screens/Login"
 
-import Login from "./Login"
+const Product = lazy(() => import("./screens/Product"))
 
 const App = () => {
   return (
-    <section>
-      <Login />
-    </section>
+    <main>
+      <Header />
+      <Suspense fallback={Loader}>
+        <Switch>
+          <Route path="/product/:slug">
+            <Product />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route path="/" component={Home} />
+        </Switch>
+      </Suspense>
+    </main>
   )
 }
 
