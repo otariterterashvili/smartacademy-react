@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react"
 import { Switch, Route } from "react-router-dom"
 import Header from "./components/Header"
 import Loader from "./components/Loader"
+import Nav from "./components/Nav"
 import Home from "./screens/Home"
 import Login from "./screens/Login"
 
@@ -11,6 +12,7 @@ const App = () => {
   return (
     <main>
       <Header />
+      <Nav />
       <Suspense fallback={Loader}>
         <Switch>
           <Route path="/product/:slug">

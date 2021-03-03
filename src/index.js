@@ -5,14 +5,18 @@ import reportWebVitals from "./reportWebVitals"
 import client from "./client"
 import { ApolloProvider } from "@apollo/client"
 import { BrowserRouter as Router } from "react-router-dom"
+import { CartContextProvider } from "./context/CartContext"
 
+import "./index.css"
 import "antd/dist/antd.css"
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Router>
-        <App />
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </Router>
     </ApolloProvider>
   </React.StrictMode>,
